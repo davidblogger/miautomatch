@@ -60,7 +60,7 @@ export function Header() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="relative px-4 py-2 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors group"
+                className="relative px-4 py-2 text-sm font-bold text-[var(--color-primary-dark)] hover:text-[var(--color-primary)] transition-colors group"
               >
                 {item.label}
                 <span className="absolute inset-x-4 -bottom-0.5 h-px bg-[var(--color-primary)] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300" />
