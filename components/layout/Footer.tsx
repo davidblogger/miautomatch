@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Container } from "./Container";
 
 const SocialIcon = ({ children }: { children: React.ReactNode }) => (
@@ -95,15 +96,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 py-20">
           <div className="md:col-span-5">
             <Link href="/" className="inline-flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-                <span className="font-bold text-[var(--color-primary)] text-base">M</span>
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-semibold text-white">Mi Auto Match</span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-white/50">
-                  Plataforma
-                </span>
-              </div>
+              <Image
+                src="/img/LOGO-WP-WHITE.png"
+                alt="Mi Auto Match"
+                width={140}
+                height={36}
+                className="h-9 w-auto object-contain"
+              />
             </Link>
             <p className="mt-6 text-white/60 text-[15px] leading-relaxed max-w-sm text-pretty">
               Plataforma tecnológica especializada en conectar personas con el vehículo ideal,
