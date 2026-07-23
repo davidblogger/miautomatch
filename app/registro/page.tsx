@@ -32,7 +32,9 @@ export default function RegistroPage() {
     });
 
     if (error) {
-      setError(error.message);
+      console.error("Signup error:", error);
+      const message = error.message || JSON.stringify(error) || "Error desconocido";
+      setError(message);
       setLoading(false);
     } else {
       router.push("/dashboard");

@@ -28,7 +28,9 @@ export default function LoginPage() {
     });
 
     if (error) {
-      setError(error.message);
+      console.error("Login error:", error);
+      const message = error.message || JSON.stringify(error) || "Credenciales inválidas";
+      setError(message);
       setLoading(false);
     } else {
       router.push("/dashboard");
