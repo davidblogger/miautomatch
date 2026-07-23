@@ -102,22 +102,37 @@ create policy "Users can delete own favorites"
 
 -- -------------------------------------------------------
 -- 5. Crear usuario admin David
---    Usa auth.admin para insertar en auth.users
+--
+-- IMPORTANTE: usar auth.sign_up NO auth.admin.create_user
+-- (auth.admin.create_user requiere sintaxis diferente según
+--  la versión de Supabase)
+--
+-- Opción A: Crear desde la app (/registro) y luego ejecutar:
+--
+--   UPDATE profiles SET role='admin', status='active'
+--   WHERE email='davidblogger@gmail.com';
+--
+-- Opción B: Crear directo desde SQL (descomenta abajo):
 -- -------------------------------------------------------
--- Elimina si ya existe (para poder re-ejecutar)
-delete from auth.users where email = 'davidblogger@gmail.com';
 
-select auth.admin.create_user(
-  {
-    email: 'davidblogger@gmail.com',
-    password: 'D3veloper..2026',
-    email_confirm: true,
-    user_metadata: { name: 'David Méndez' }
-  }
-) as user;
+-- Opción B: crear usuario directo (descomenta si Opción A no funciona)
+-- INSERT INTO auth.users (id, instance_id, email, encrypted_password, email_confirmed_at, last_sign_in_at, created_at, updated_at, raw_app_meta_data, raw_user_meta_data)
+-- VALUES (
+--   gen_random_uuid(),
+--   '00000000-0000-0000-0000-000000000000',
+--   'davidblogger@gmail.com',
+--   crypt('D3veloper..2026', gen_salt('bf')),
+--   now(),
+--   now(),
+--   now(),
+--   now(),
+--   '{"provider":"email","providers":["email"]}'::jsonb,
+--   '{"name":"David Méndez"}'::jsonb
+-- );
 
 -- -------------------------------------------------------
--- 6. Actualizar rol y estado del admin
+-- 6. Asignar rol admin a David (ejecutar después de registrarse)
+--    Comenta esta línea si el usuario aún no existe
 -- -------------------------------------------------------
 update profiles
 set role = 'admin', status = 'active', name = 'David Méndez'
