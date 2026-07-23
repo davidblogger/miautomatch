@@ -9,6 +9,7 @@ import { VehicleRow } from "@/components/admin/VehicleRow";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { useVehicleStore } from "@/lib/vehicle-store";
+import { useToast } from "@/lib/toast-store";
 import type { AdminVehicle } from "@/lib/types";
 
 const PAGE_SIZE = 8;
@@ -23,6 +24,7 @@ const SORT_OPTIONS = [
 
 export function VehiculosView() {
   const { vehicles, remove } = useVehicleStore();
+  const { toast } = useToast();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [fuelFilter, setFuelFilter] = useState("all");
@@ -240,7 +242,13 @@ export function VehiculosView() {
         open={!!toDelete}
         onClose={() => setToDelete(null)}
         onConfirm={() => {
-          if (toDelete) remove(toDelete.id);
+          if (toDelete) {
+            remove(toDelete.id);
+            toast("Vehículo eliminado", {
+              description: `${toDelete.brand} ${toDelete.model} fue removido del inventario.`,
+              variant: "success",
+            });
+          }
         }}
         title="¿Eliminar este vehículo?"
         message={

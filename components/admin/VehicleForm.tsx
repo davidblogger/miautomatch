@@ -6,6 +6,7 @@ import { Save, ChevronDown, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { ImageUploader } from "./ImageUploader";
+import { useToast } from "@/lib/toast-store";
 import type { AdminVehicle } from "@/lib/types";
 
 const DEFAULT_VEHICLE: Omit<AdminVehicle, "id" | "createdAt" | "updatedAt"> = {
@@ -86,6 +87,7 @@ export function VehicleForm({
   submitLabel?: string;
 }) {
   const router = useRouter();
+  const { toast } = useToast();
   const [data, setData] = useState<Omit<AdminVehicle, "id" | "createdAt" | "updatedAt">>(
     initial ? { ...initial } : DEFAULT_VEHICLE
   );
@@ -99,7 +101,16 @@ export function VehicleForm({
   function handleSave(status: AdminVehicle["status"]) {
     setSubmitting(true);
     onSubmit({ ...data, status });
-    setTimeout(() => router.push("/vehiculos"), 400);
+    const label = `${data.brand} ${data.model}`.trim();
+    const isDraft = status === "draft";
+    toast(
+      isDraft ? "Borrador guardado" : initial ? "Vehículo actualizado" : "Vehículo publicado",
+      {
+        description: label || "Nuevo vehículo en el inventario",
+        variant: "success",
+      }
+    );
+    setTimeout(() => router.push("/vehiculos"), 350);
   }
 
   const errors = {

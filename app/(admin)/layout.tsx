@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { VehicleProvider } from "@/lib/vehicle-store";
+import { ToastProvider } from "@/lib/toast-store";
 
 export const metadata: Metadata = {
   title: {
@@ -11,8 +12,10 @@ export const metadata: Metadata = {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <VehicleProvider>
-      <AdminShell>{children}</AdminShell>
-    </VehicleProvider>
+    <ToastProvider>
+      <VehicleProvider>
+        <AdminShell>{children}</AdminShell>
+      </VehicleProvider>
+    </ToastProvider>
   );
 }

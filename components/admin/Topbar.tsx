@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { Bell, Search, ChevronRight } from "lucide-react";
 
@@ -15,6 +16,18 @@ function buildCrumbs(pathname: string) {
 export function Topbar() {
   const pathname = usePathname();
   const crumbs = buildCrumbs(pathname);
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <header className="sticky top-0 z-30 -mx-6 mb-6 px-6 py-4">
@@ -38,9 +51,10 @@ export function Topbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 h-10 px-4 rounded-full bg-white border border-[var(--color-border)] text-[13px] text-[var(--color-text-muted)] w-64 focus-within:border-[var(--color-primary)] focus-within:shadow-[0_0_0_4px_rgba(1,68,119,0.08)] transition-all">
+          <label className="hidden md:flex items-center gap-2 h-10 px-4 rounded-full bg-white border border-[var(--color-border)] text-[13px] text-[var(--color-text-muted)] w-64 focus-within:border-[var(--color-primary)] focus-within:shadow-[0_0_0_4px_rgba(1,68,119,0.08)] transition-all">
             <Search className="w-4 h-4" />
             <input
+              ref={searchRef}
               type="search"
               placeholder="Buscar en el panel…"
               className="flex-1 bg-transparent outline-none placeholder:text-[var(--color-text-muted)]"
@@ -48,7 +62,7 @@ export function Topbar() {
             <kbd className="hidden lg:inline-flex items-center gap-0.5 text-[10px] font-mono text-[var(--color-text-muted)] bg-[var(--color-surface)] border border-[var(--color-border)] px-1.5 py-0.5 rounded">
               ⌘K
             </kbd>
-          </div>
+          </label>
 
           <button
             aria-label="Notificaciones"
