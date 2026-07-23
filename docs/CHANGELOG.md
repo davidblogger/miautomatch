@@ -10,6 +10,20 @@ El formato sigue una convención inspirada en [Keep a Changelog](https://keepach
 
 ---
 
+## [Fase 2 — Dashboard admin] — 23 Julio 2026
+
+### Added
+- Módulo `Usuarios` completo: páginas `/usuarios` (lista), `/usuarios/nuevo`, `/usuarios/[id]` (editar).
+- Tipo `AdminUser` con roles `admin` | `user`, estados `active` | `pending` | `suspended`, y `favoriteVehicleIds`.
+- `UserStore` con CRUD + `addFavorite`/`removeFavorite` (integración cross-store con `VehicleStore`).
+- 13 usuarios mock (3 admins, 10 clientes) con favoritos hacia vehículos reales.
+- `UsersView` con tabs "Clientes" / "Administradores", búsqueda, filtro por estado, paginación implícita y acciones.
+- `UserForm` con 2 secciones colapsables: info personal (nombre, email, teléfono, ciudad) y favoritos con buscador de vehículos.
+- Sidebar: link `Usuarios` habilitado (sin "Pronto"), indicator animado `layoutId` en tabs.
+- `UserProvider` agregado al `AdminLayout`.
+
+---
+
 ## [Fase 2 — Dashboard admin] — 22 Julio 2026
 
 ### Added

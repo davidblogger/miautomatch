@@ -6,6 +6,34 @@ Registro cronológico de las sesiones de trabajo. Cada entrada incluye objetivo,
 
 ## Sesión 23 Julio 2026
 
+**Objetivo:** Módulo Usuarios completo.
+
+**Completado:**
+- ✅ Tipos `AdminUser`, `UserRole`, `UserStatus` en `lib/types.ts`.
+- ✅ Mock data: 13 usuarios (3 admins, 10 clientes) con favoritos hacia vehículos reales.
+- ✅ `UserStore` con CRUD + `addFavorite`/`removeFavorite` (integración cross-store con `VehicleStore`).
+- ✅ `UserForm`: información personal + favoritos con buscador de vehículos.
+- ✅ `UsersView`: tabs Clientes/Administradores, búsqueda, filtro estado, paginación.
+- ✅ Páginas `/usuarios`, `/usuarios/nuevo`, `/usuarios/[id]`.
+- ✅ Sidebar: `Usuarios` habilitado.
+- ✅ Build + lint verdes. Commit 9671acc.
+- ✅ Docs actualizadas.
+
+**Decisiones:**
+- Rol `dealer` (automotora) queda pendiente para fase futura.
+- Campos de cliente: básicos (nombre, email, teléfono, ciudad, estado, favoritos).
+- Admin puede hacer CRUD completo sobre usuarios.
+- Vista admin: tabs por rol (listas separadas).
+- Automotora (varios vendedores por automotora) se aborda cuando haya backend real.
+
+**Pendiente:**
+- ⏳ Fase 3 del dashboard (por definir: métricas, reportes, exports).
+- ⏳ Automotora (dealer) — requiere diseño de RBAC y relación dealer→vendedores→vehículos.
+
+---
+
+## Sesión 23 Julio 2026 (prev)
+
 **Objetivo:** Documentar el contexto del proyecto (bitácora, decisiones, sesiones).
 
 **Completado:**
