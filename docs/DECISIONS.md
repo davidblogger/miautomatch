@@ -110,18 +110,34 @@ Documento vivo con las decisiones técnicas más relevantes del proyecto y el **
 
 ## ADR-007 · Login mock simple (sin backend)
 
-**Fecha:** 22 Julio 2026 · **Estado:** Aceptado
+**Fecha:** 22 Julio 2026 · **Estado:** Superseded by ADR-012
 
-**Decisión:** La pantalla `/login` valida solo que los campos no estén vacíos y redirige a `/dashboard`. No verifica credenciales reales ni persiste sesión.
+**Decisión:** (Ver ADR-012 — Supabase Auth real).
+
+---
+
+## ADR-012 · Supabase Auth real con email/password
+
+**Fecha:** 23 Julio 2026 · **Estado:** Aceptado
+
+**Decisión:** Login y registro reales usando Supabase Auth (`signInWithPassword` + `signUp`) con:
+- Tabla `profiles` que extiende `auth.users` (1:1 via FK en `id`).
+- Trigger `on_auth_user_created` que auto-crea el profile al registrarse extrayendo `name` desde `raw_user_meta_data->>'name'`.
+- Login y registro como páginas standalone (fuera del route group `(admin)`), sin AdminShell.
+- `useCurrentUser` hook que consume `profiles` + `auth.users`.
+- Profile de David Mijares creado manualmente en Supabase para validar el flujo.
 
 **Por qué:**
-- El plan actual no incluye Supabase real (UI completa + mock data).
-- Cualquier credencial funciona para acelerar demos y desarrollo.
-- Cuando se conecte Supabase, el `handleSubmit` se reemplaza por `supabase.auth.signInWithPassword(...)` sin tocar la UI.
+- Mock auth era solo para avanzar desarrollo; ahora se necesitaba auth real.
+- El primer proyecto Supabase tuvo auth roto (`AuthRetryableFetchError`); se creó un segundo proyecto con nuevas keys JWT.
+- El trigger fallaba inicialmente porque `profiles` no existía; una vez creada la tabla, el trigger `or replace` lo recreó correctamente.
+- El campo del metadata debe ser `name` (minúscula) para que el trigger lo capture — el registro envía `name` en minúscula.
 
 **Consecuencias:**
-- Botón "Mock auth" visible en pantalla para claridad.
-- Sin middleware de protección: las rutas admin son accesibles sin login (deliberado para esta fase).
+- Login/registro ahora en `app/login/page.tsx` y `app/registro/page.tsx` (standalone, fuera de `(admin)`).
+- `proxy.ts` protege rutas `/dashboard`, `/vehiculos`, `/blog`, `/usuarios`.
+- `/usuarios` admin sigue usando mock `ADMIN_USERS` — próximo paso: migrar a datos reales de Supabase.
+- El `user-store.tsx` mock sigue existiendo para `/usuarios`; será reemplazado cuando se migré esa página.
 
 ---
 

@@ -10,6 +10,32 @@ El formato sigue una convención inspirada en [Keep a Changelog](https://keepach
 
 ---
 
+## [Fase 3 — Supabase Auth] — 23 Julio 2026
+
+### Added
+- Integración Supabase real: `lib/supabase/client.ts` + `server.ts`.
+- `proxy.ts` como middleware de protección de rutas (`/dashboard`, `/vehiculos`, `/blog`, `/usuarios`).
+- Login real con `signInWithPassword` en `app/login/page.tsx` (standalone, fuera de `(admin)`).
+- Registro real con `signUp` en `app/registro/page.tsx` (standalone, fuera de `(admin)`).
+- `lib/use-current-user.ts` — hook para obtener usuario logueado desde `profiles`.
+- `useCurrentUser` hook integrado en `Topbar.tsx` — muestra nombre real del usuario.
+- `Sidebar.tsx` actualizado: avatar con iniciales dinámicas, rol, logout real via Supabase.
+- Profile de "David Mijares" creado manualmente en Supabase para validar el flujo.
+- `docs/DATABASE_BITACORA.md` — bitácora del schema de Supabase.
+
+### Fixed
+- Corrección del trigger `on_auth_user_created`: `Name` (mayúscula) → `name` (minúscula) para que capture correctamente el nombre del metadata.
+- Eliminado `setup-supabase.sql` (obsoleto y peligroso — contenía pasos que borraban el usuario admin).
+- Login/registro以前的 `/login` y `/registro` estaban dentro de `(admin)` — movidos a nivel de `app/` para ser standalone.
+
+### Changed
+- Login y registro: de mock `ADMIN_USERS` hardcoded → auth real de Supabase (`signInWithPassword` + `signUp`).
+- Topbar y Sidebar: de nombre hardcoded "David Méndez" → nombre real desde `profiles`.
+- Pages de login/registro salieron del route group `(admin)` — ahora son páginas públicas.
+- Middleware renombrado de `middleware.ts` → `proxy.ts`.
+
+---
+
 ## [Fase 2 — Dashboard admin] — 23 Julio 2026
 
 ### Added

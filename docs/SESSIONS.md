@@ -4,31 +4,33 @@ Registro cronológico de las sesiones de trabajo. Cada entrada incluye objetivo,
 
 ---
 
-## Sesión 23 Julio 2026
+## Sesión 23 Julio 2026 ( tarde)
 
-**Objetivo:** Módulo Usuarios completo.
+**Objetivo:** Integración Supabase Auth real.
 
 **Completado:**
-- ✅ Tipos `AdminUser`, `UserRole`, `UserStatus` en `lib/types.ts`.
-- ✅ Mock data: 13 usuarios (3 admins, 10 clientes) con favoritos hacia vehículos reales.
-- ✅ `UserStore` con CRUD + `addFavorite`/`removeFavorite` (integración cross-store con `VehicleStore`).
-- ✅ `UserForm`: información personal + favoritos con buscador de vehículos.
-- ✅ `UsersView`: tabs Clientes/Administradores, búsqueda, filtro estado, paginación.
-- ✅ Páginas `/usuarios`, `/usuarios/nuevo`, `/usuarios/[id]`.
-- ✅ Sidebar: `Usuarios` habilitado.
-- ✅ Build + lint verdes. Commit 9671acc.
-- ✅ Docs actualizadas.
+- ✅ Segundo proyecto Supabase creado (el primero tenía auth roto).
+- ✅ `.env.local` con nuevas keys JWT.
+- ✅ `lib/supabase/client.ts` + `server.ts` con `createBrowserClient` / `createServerClient`.
+- ✅ Login y registro reales con `signInWithPassword` + `signUp` en páginas standalone (`app/login/`, `app/registro/`).
+- ✅ Toggle de visibilidad de contraseña (eye/eye-off icons).
+- ✅ `proxy.ts` protegiendo rutas admin.
+- ✅ `use-current-user.ts` hook + integración en `Topbar.tsx` y `Sidebar.tsx`.
+- ✅ Profile de "David Mijares" creado manualmente en Supabase.
+- ✅ SQL del schema `profiles` + `user_favorites` + trigger corregido + RLS + policies ejecutado por el usuario.
+- ✅ `docs/DATABASE_BITACORA.md` creada con schema completo.
+- ✅ `docs/CHANGELOG.md`, `docs/DECISIONS.md`, `docs/SESSIONS.md` actualizados.
+- ✅ Commits subidos.
 
 **Decisiones:**
-- Rol `dealer` (automotora) queda pendiente para fase futura.
-- Campos de cliente: básicos (nombre, email, teléfono, ciudad, estado, favoritos).
-- Admin puede hacer CRUD completo sobre usuarios.
-- Vista admin: tabs por rol (listas separadas).
-- Automotora (dealer) se aborda cuando haya backend real.
+- Primer proyecto Supabase descartado por auth irrecuperable (`AuthRetryableFetchError`).
+- Trigger corregido: `Name` → `name` (minúscula) para capturar nombre del metadata.
+- Login/registro sacados del route group `(admin)` — son standalone.
+- `setup-supabase.sql` eliminado (contenía pasos destructivos para el usuario admin).
 
 **Pendiente:**
-- ⏳ Fase 3 del dashboard (por definir: métricas, reportes, exports).
-- ⏳ Automotora (dealer) — requiere diseño de RBAC y relación dealer→vendedores→vehículos.
+- ⏳ Migrar `/usuarios` a datos reales de Supabase (sigue con mock `ADMIN_USERS`).
+- ⏳ Plan 2 (Automotora) — pendiente.
 
 ---
 
