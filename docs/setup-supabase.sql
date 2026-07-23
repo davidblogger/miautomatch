@@ -86,12 +86,12 @@ values (
   crypt('D3veloper..2026', gen_salt('bf')),
   now(), now(), now(), now(),
   '{"provider":"email","providers":["email"]}'::jsonb,
-  '{"Name":"David Méndez"}'::jsonb
+  '{"Name":"David Mijares"}'::jsonb
 );
 
 -- El trigger ya creó el profile, solo actualizamos rol
 update profiles
-set role = 'admin', status = 'active', name = 'David Méndez'
+set role = 'admin', status = 'active', name = 'David Mijares'
 where id in (
   select id from auth.users where email = 'davidblogger@gmail.com'
 );
@@ -100,5 +100,5 @@ where id in (
 select
   (select count(*) from profiles) as total_profiles,
   (select count(*) from user_favorites) as total_favorites,
-  (select role from profiles where name = 'David Méndez') as david_role,
-  (select status from profiles where name = 'David Méndez') as david_status;
+  (select role from profiles where name = 'David Mijares') as david_role,
+  (select status from profiles where name = 'David Mijares') as david_status;
