@@ -24,11 +24,42 @@ Registro cronológico de las sesiones de trabajo. Cada entrada incluye objetivo,
 - Campos de cliente: básicos (nombre, email, teléfono, ciudad, estado, favoritos).
 - Admin puede hacer CRUD completo sobre usuarios.
 - Vista admin: tabs por rol (listas separadas).
-- Automotora (varios vendedores por automotora) se aborda cuando haya backend real.
+- Automotora (dealer) se aborda cuando haya backend real.
 
 **Pendiente:**
 - ⏳ Fase 3 del dashboard (por definir: métricas, reportes, exports).
 - ⏳ Automotora (dealer) — requiere diseño de RBAC y relación dealer→vendedores→vehículos.
+
+---
+
+## Sesión 23 Julio 2026 (planificación)
+
+**Objetivo:** Planificar Supabase (incremento 1: Auth + Perfil) y Automotora (incremento 2).
+
+**Completado:**
+- ✅ Plan 1: `docs/SUPABASE_AUTH_PLAN.md` — Auth real email/password + profiles + favoritos + middleware.
+- ✅ Plan 2: `docs/AUTOMOTORA_PLAN.md` — Dealers, vendedores, N:M vehículos, perfil público `/automotora/[slug]`.
+
+**Secuencia de implementación confirmada:**
+1. **Plan 1** → Supabase Auth + Perfil (auth real, profiles, favoritos). Dependencias: proyecto Supabase creado, variables de entorno.
+2. **Plan 2** → Automotora (dealers, sellers, dealer_vehicles, reviews, perfil público). Requiere Plan 1 completo.
+
+**Decisiones Supabase Auth:**
+- Email + contraseña (no magic link, no OAuth)
+- Roles en tabla `profiles` (no hardcoded)
+- Incremento 1: solo auth + perfil + favoritos. Vehicles y Blog siguen mock.
+- Enfoque incremental (tabla por tabla, probando)
+
+**Decisiones Automotora:**
+- Vendedor → Dealer: 1:N (un vendedor = una automotora)
+- Vehículo → Dealer: N:M (un vehículo puede estar en varias automotoras)
+- Dealer tiene perfil público (`/automotora/[slug]`)
+- Dealer Admin ve solo lo suyo (RLS)
+- Admin global ve todo
+
+**Pendiente:**
+- ⏳ Ejecutar Plan 1: obtener credenciales Supabase, configurar `.env.local`, ejecutar SQL, implementar auth.
+- ⏳ Ejecutar Plan 2: después de Plan 1 completo.
 
 ---
 
