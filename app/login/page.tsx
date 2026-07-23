@@ -22,18 +22,26 @@ export default function LoginPage() {
     setError("");
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
 
-    if (error) {
-      console.error("Login error:", error);
-      const message = error.message || JSON.stringify(error) || "Credenciales inválidas";
-      setError(message);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      console.log("Login response:", { data, error });
+
+      if (error) {
+        setError(error.message || "Credenciales inválidas");
+        setLoading(false);
+      } else {
+        console.log("Logged in:", data);
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      console.error("Login exception:", err);
+      setError("Error de conexión. Revisa la consola.");
       setLoading(false);
-    } else {
-      router.push("/dashboard");
     }
   }
 

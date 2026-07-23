@@ -23,21 +23,29 @@ export default function RegistroPage() {
     setError("");
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { name },
-      },
-    });
 
-    if (error) {
-      console.error("Signup error:", error);
-      const message = error.message || JSON.stringify(error) || "Error desconocido";
-      setError(message);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { name },
+        },
+      });
+
+      console.log("Signup response:", { data, error });
+
+      if (error) {
+        setError(error.message || "Error al registrar");
+        setLoading(false);
+      } else {
+        console.log("User created:", data);
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      console.error("Signup exception:", err);
+      setError("Error de conexión. Revisa la consola.");
       setLoading(false);
-    } else {
-      router.push("/dashboard");
     }
   }
 
