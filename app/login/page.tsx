@@ -32,15 +32,26 @@ export default function LoginPage() {
       console.log("Login response:", { data, error });
 
       if (error) {
-        setError(error.message || "Credenciales inválidas");
+        setError(`Error ${error.status || ""}: ${error.message || JSON.stringify(error)}`);
         setLoading(false);
-      } else {
-        console.log("Logged in:", data);
-        router.push("/dashboard");
+        return;
       }
+
+      console.log("Logged in:", data);
+      router.push("/dashboard");
     } catch (err) {
-      console.error("Login exception:", err);
-      setError("Error de conexión. Revisa la consola.");
+      const anyErr = err as { cause?: { message?: string }; message?: string; name?: string };
+      console.error("Login exception FULL:", err);
+      console.error("Login exception JSON:", JSON.stringify(err, Object.getOwnPropertyNames(err)));
+
+      const causeMessage = anyErr?.cause?.message;
+      const message =
+        causeMessage ||
+        anyErr?.message ||
+        JSON.stringify(err) ||
+        "Error desconocido";
+
+      setError(`${anyErr?.name || "Error"}: ${message}`);
       setLoading(false);
     }
   }

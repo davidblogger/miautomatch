@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { Bell, Search, ChevronRight } from "lucide-react";
+import { useCurrentUser } from "@/lib/use-current-user";
 
 function buildCrumbs(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
@@ -17,6 +18,11 @@ export function Topbar() {
   const pathname = usePathname();
   const crumbs = buildCrumbs(pathname);
   const searchRef = useRef<HTMLInputElement>(null);
+  const { user } = useCurrentUser();
+
+  function getInitials(name: string) {
+    return name.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
+  }
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -75,12 +81,14 @@ export function Topbar() {
           <div className="flex items-center gap-2.5 pl-3 border-l border-[var(--color-border)]">
             <div className="hidden sm:block text-right leading-none">
               <div className="text-[13px] font-semibold text-[var(--color-text-primary)]">
-                David Méndez
+                {user?.name ?? "Cargando…"}
               </div>
-              <div className="text-[11px] text-[var(--color-text-muted)] mt-1">Admin</div>
+              <div className="text-[11px] text-[var(--color-text-muted)] mt-1 capitalize">
+                {user?.role ?? "—"}
+              </div>
             </div>
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center text-white font-semibold text-sm ring-2 ring-white">
-              DM
+              {user ? getInitials(user.name) : "?"}
             </div>
           </div>
         </div>

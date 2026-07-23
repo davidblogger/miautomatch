@@ -36,15 +36,26 @@ export default function RegistroPage() {
       console.log("Signup response:", { data, error });
 
       if (error) {
-        setError(error.message || "Error al registrar");
+        setError(`Error ${error.status || ""}: ${error.message || JSON.stringify(error)}`);
         setLoading(false);
-      } else {
-        console.log("User created:", data);
-        router.push("/dashboard");
+        return;
       }
+
+      console.log("User created:", data);
+      router.push("/dashboard");
     } catch (err) {
-      console.error("Signup exception:", err);
-      setError("Error de conexión. Revisa la consola.");
+      const anyErr = err as { cause?: { message?: string }; message?: string; name?: string };
+      console.error("Signup exception FULL:", err);
+      console.error("Signup exception JSON:", JSON.stringify(err, Object.getOwnPropertyNames(err)));
+
+      const causeMessage = anyErr?.cause?.message;
+      const message =
+        causeMessage ||
+        anyErr?.message ||
+        JSON.stringify(err) ||
+        "Error desconocido";
+
+      setError(`${anyErr?.name || "Error"}: ${message}`);
       setLoading(false);
     }
   }
