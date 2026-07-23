@@ -1,8 +1,31 @@
 # Plan 1: Supabase Auth + Perfil de Usuario
 
-**Estado:** Planificado — pendiente de ejecución  
+**Estado:** En ejecución  
 **Fecha:** 23 Julio 2026  
 **Alcance:** Auth real con email/contraseña + tabla profiles + favoritos. Vehicles y Blog siguen mock.
+
+## Estado de implementación
+
+### ✅ Implementado (commit 9831f37)
+- `.env.local` con credenciales Supabase (variables de entorno configuradas)
+- `npm install @supabase/supabase-js @supabase/ssr`
+- `lib/supabase/client.ts` y `server.ts` (createBrowserClient / createServerClient)
+- `proxy.ts` (antes `middleware.ts`) — protección de rutas `/dashboard`, `/vehiculos`, `/blog`, `/usuarios`
+- `app/auth/callback/route.ts` — handling del auth callback
+- Login real con `signInWithPassword` (`app/(admin)/login/page.tsx`)
+- Registro con `signUp` + metadata nombre (`app/(admin)/registro/page.tsx`)
+- `lib/use-current-user.ts` — hook para sesión del usuario logueado
+- Sidebar actualizado: avatar dinámico, logout real via Supabase
+
+### ⏳ Pendiente
+- Crear tablas `profiles` y `user_favorites` en Supabase (ejecutar SQL manualmente)
+- Habilitar Email provider en Supabase Dashboard → Authentication → Providers
+- Migrar `/usuarios` admin para usar datos reales de Supabase (actualmente sigue con mock `ADMIN_USERS`)
+- El schema SQL del Paso 2 aún debe ejecutarse en el SQL Editor de Supabase
+
+---
+
+## Schema a ejecutar en Supabase (pendiente)
 
 ---
 

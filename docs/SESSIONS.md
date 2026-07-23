@@ -58,8 +58,10 @@ Registro cronológico de las sesiones de trabajo. Cada entrada incluye objetivo,
 - Admin global ve todo
 
 **Pendiente:**
-- ⏳ Ejecutar Plan 1: obtener credenciales Supabase, configurar `.env.local`, ejecutar SQL, implementar auth.
-- ⏳ Ejecutar Plan 2: después de Plan 1 completo.
+- ⏳ Ejecutar SQL del schema en Supabase (profiles, user_favorites, triggers, RLS policies)
+- ⏳ Habilitar Email provider en Supabase Dashboard
+- ⏳ Migrar `/usuarios` admin para usar datos reales de Supabase
+- ⏳ Ejecutar Plan 2 (Automotora) después de que schema esté activo
 
 ---
 
