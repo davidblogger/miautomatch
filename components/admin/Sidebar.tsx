@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
+import { useCurrentUser } from "@/lib/use-current-user";
 import { motion } from "framer-motion";
 import {
   LayoutDashboard,
@@ -29,6 +30,22 @@ const NAV: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, signOut } = useCurrentUser();
+
+  async function handleSignOut() {
+    await signOut();
+    router.push("/login");
+  }
+
+  function getInitials(name: string) {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+  }
 
   return (
     <aside className="hidden lg:flex flex-col w-[280px] shrink-0 h-screen sticky top-0 border-r border-white/5">
@@ -112,25 +129,27 @@ export function Sidebar() {
             <Settings className="w-4 h-4" />
             Configuración
           </Link>
-          <Link
-            href="/"
-            className="flex items-center gap-3 h-11 px-3 rounded-xl text-[14px] font-medium text-white/55 hover:text-white hover:bg-white/5 transition-colors"
+          <button
+            onClick={handleSignOut}
+            className="w-full flex items-center gap-3 h-11 px-3 rounded-xl text-[14px] font-medium text-white/55 hover:text-white hover:bg-white/5 transition-colors"
           >
             <LogOut className="w-4 h-4" />
             Salir
-          </Link>
+          </button>
         </div>
 
         <div className="mt-4 p-3 rounded-xl border border-white/5 bg-white/[0.02]">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[var(--color-primary-light)] to-[var(--color-primary)] flex items-center justify-center text-white font-semibold text-sm">
-              DM
+              {user ? getInitials(user.name) : "?"}
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-[13px] font-semibold text-white truncate">
-                David Méndez
+                {user?.name ?? "Cargando…"}
               </div>
-              <div className="text-[11px] text-white/45 truncate">Admin</div>
+              <div className="text-[11px] text-white/45 truncate capitalize">
+                {user?.role ?? "—"}
+              </div>
             </div>
           </div>
         </div>

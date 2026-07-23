@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Mail, Lock, ArrowRight, Loader2, Sparkles } from "lucide-react";
+import { Mail, Lock, User, ArrowRight, Loader2, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
-export default function LoginPage() {
+export default function RegistroPage() {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,9 +22,12 @@ export default function LoginPage() {
     setError("");
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: { name },
+      },
     });
 
     if (error) {
@@ -73,17 +77,34 @@ export default function LoginPage() {
             />
             <div className="mt-6 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--color-primary-50)] text-[var(--color-primary)] text-[11px] uppercase tracking-[0.2em] font-medium">
               <Sparkles className="w-3 h-3" />
-              Panel interno
+              Crear cuenta
             </div>
             <h1 className="mt-5 text-2xl font-bold tracking-tight text-[var(--color-text-primary)]">
-              Bienvenido de vuelta
+              Regístrate en Mi Auto Match
             </h1>
             <p className="mt-2 text-[14px] text-[var(--color-text-secondary)]">
-              Ingresa tus credenciales para acceder al panel.
+              Crea tu cuenta para acceder al panel de administración.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-[12px] font-medium text-[var(--color-text-secondary)] uppercase tracking-wider">
+                Nombre completo
+              </label>
+              <div className="relative flex items-center h-12 px-4 rounded-full bg-white border border-[var(--color-border)] focus-within:border-[var(--color-primary)] focus-within:shadow-[0_0_0_4px_rgba(1,68,119,0.08)] transition-all">
+                <User className="w-4 h-4 text-[var(--color-text-secondary)] shrink-0" />
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Tu nombre"
+                  className="flex-1 ml-2 bg-transparent outline-none text-[15px] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)]"
+                />
+              </div>
+            </div>
+
             <div className="space-y-2">
               <label className="text-[12px] font-medium text-[var(--color-text-secondary)] uppercase tracking-wider">
                 Email
@@ -112,7 +133,8 @@ export default function LoginPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Mínimo 6 caracteres"
+                  minLength={6}
                   className="flex-1 ml-2 bg-transparent outline-none text-[15px] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)]"
                 />
               </div>
@@ -132,11 +154,11 @@ export default function LoginPage() {
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Ingresando…
+                  Creando cuenta…
                 </>
               ) : (
                 <>
-                  Ingresar al panel
+                  Crear cuenta
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -147,15 +169,11 @@ export default function LoginPage() {
             <Link href="/" className="hover:text-[var(--color-primary)] transition-colors">
               ← Volver al sitio
             </Link>
-            <Link href="/registro" className="hover:text-[var(--color-primary)] transition-colors">
-              Crear cuenta
+            <Link href="/login" className="hover:text-[var(--color-primary)] transition-colors">
+              Ya tengo cuenta
             </Link>
           </div>
         </div>
-
-        <p className="mt-6 text-center text-[12px] text-white/40">
-          Usa tus credenciales de Supabase para acceder.
-        </p>
       </motion.div>
     </div>
   );
