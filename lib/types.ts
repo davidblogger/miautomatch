@@ -35,3 +35,24 @@ export type ActivityItem = {
   timestamp: string;
   user: string;
 };
+
+export type BlogPostStatus = "published" | "draft" | "archived";
+
+export type BlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage: string;
+  category: string;
+  tags: string[];
+  status: BlogPostStatus;
+  author: string;
+  readingTime: number;
+  featured: boolean;
+  views: number;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt?: string;
+};

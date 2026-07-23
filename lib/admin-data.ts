@@ -1,4 +1,4 @@
-import type { AdminVehicle, ActivityItem } from "./types";
+import type { AdminVehicle, ActivityItem, BlogPost } from "./types";
 
 const IMAGE_BASE =
   "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&w=1600&q=80";
@@ -230,3 +230,192 @@ export const VEHICLE_BRANDS = [
 export const VEHICLE_CATEGORIES = [
   "Sedán", "SUV", "Deportivo", "Coupé", "Wagon", "Eléctrico", "Pickup",
 ];
+
+const COVER_IMAGES = [
+  "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?auto=format&fit=crop&w=1600&q=80",
+];
+
+const POST_TITLES = [
+  {
+    title: "Por qué los eléctricos premium redefinen el confort de manejo",
+    category: "Tecnología",
+    tags: ["Eléctricos", "Innovación"],
+    excerpt:
+      "La nueva generación de vehículos eléctricos no solo cambia el combustible, redefine cómo se siente conducir. Analizamos las claves.",
+    featured: true,
+  },
+  {
+    title: "Cómo elegir tu primer auto deportivo: 7 preguntas clave",
+    category: "Guías",
+    tags: ["Deportivos", "Compra"],
+    excerpt:
+      "Comprar un deportivo no es solo velocidad. Te ayudamos a pensar en uso, presupuesto, mantenimiento y valor de reventa.",
+    featured: false,
+  },
+  {
+    title: "SUV vs Wagon: la comparativa que ningún fabricante te muestra",
+    category: "Comparativas",
+    tags: ["SUV", "Wagon", "Estilo de vida"],
+    excerpt:
+      "Más espacio, mejor dinámica, menor consumo. ¿Por qué el wagon sigue siendo la opción subestimada?",
+    featured: false,
+  },
+  {
+    title: "Leasing vs compra tradicional en 2026: cuándo conviene cada uno",
+    category: "Financiamiento",
+    tags: ["Leasing", "Compra", "Finanzas"],
+    excerpt:
+      "El escenario económico cambió. Repasamos cuándo conviene financiar, cuándo comprar y cuándo suscribirse.",
+    featured: false,
+  },
+  {
+    title: "El futuro de la certificación vehicular: qué viene después de los 150 puntos",
+    category: "Industria",
+    tags: ["Certificación", "Tecnología"],
+    excerpt:
+      "Cómo la IA y los sensores están cambiando el proceso de inspección de vehículos usados en mercados maduros.",
+    featured: true,
+  },
+  {
+    title: "Interior minimalista: la nueva frontera del lujo automotriz",
+    category: "Diseño",
+    tags: ["Diseño", "Lujo"],
+    excerpt:
+      "Menos botones, más pantallas. Cómo las marcas premium están reinterpretando el lujo desde la simplicidad.",
+    featured: false,
+  },
+  {
+    title: "Mantenimiento predictivo: lo que tu auto sabe antes que tú",
+    category: "Tecnología",
+    tags: ["Mantenimiento", "Tecnología"],
+    excerpt:
+      "Sensores, telemetría y machine learning al servicio de prevenir fallas antes de que ocurran.",
+    featured: false,
+  },
+  {
+    title: "Carga pública en Chile: el mapa real de la electromovilidad 2026",
+    category: "Tecnología",
+    tags: ["Eléctricos", "Infraestructura", "Chile"],
+    excerpt:
+      "Recorremos las regiones con mayor cobertura de carga eléctrica y qué viene para el resto del país.",
+    featured: false,
+  },
+  {
+    title: "Por qué un auto usado certificado vale más que uno nuevo económico",
+    category: "Compra inteligente",
+    tags: ["Usados", "Certificación", "Valor"],
+    excerpt:
+      "La depreciación es brutal el primer año. Un usado certificado puede darte 80% del auto por 50% del precio.",
+    featured: false,
+  },
+  {
+    title: "Test: Porsche Taycan 4S vs BMW i7 — lujo eléctrico cara a cara",
+    category: "Comparativas",
+    tags: ["Porsche", "BMW", "Eléctricos"],
+    excerpt:
+      "Dos filosofías del lujo eléctrico. Uno deportivo y emotivo, otro refinado y tecnológico. ¿Cuál gana?",
+    featured: true,
+  },
+  {
+    title: "Cómo preparar tu auto para venderlo en 48 horas",
+    category: "Guías",
+    tags: ["Venta", "Consejos"],
+    excerpt:
+      "Fotos, documentación, precio. Una checklist rápida para maximizar el valor de tu vehículo en el menor tiempo.",
+    featured: false,
+  },
+  {
+    title: "El nuevo consumidor automotriz: digital, informado y sin paciencia",
+    category: "Industria",
+    tags: ["Mercado", "Consumidor"],
+    excerpt:
+      "Las nuevas generaciones compran autos como compran zapatos: online, con datos y sin reuniones innecesarias.",
+    featured: false,
+  },
+];
+
+const POST_CONTENT = `En este artículo exploramos a fondo un tema clave para cualquier comprador o entusiasta automotriz. 
+
+Repasamos el contexto actual, las opciones disponibles y los criterios que realmente importan a la hora de tomar una decisión informada.
+
+## Por qué importa
+
+El mercado automotriz cambió más en los últimos cinco años que en las tres décadas anteriores. La electrificación, la digitalización y los nuevos modelos de propiedad están reescribiendo las reglas.
+
+## Lo que viene
+
+Los próximos años traerán más cambios. Mantenerse informado es la mejor herramienta para tomar buenas decisiones, sin importar si estás comprando tu primer auto o el décimo.
+
+## Conclusión
+
+No existe una respuesta universal. Pero entender el contexto, las opciones y los trade-offs es el primer paso para elegir bien.`;
+
+function slugify(s: string) {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
+function readingTime(text: string) {
+  const words = text.trim().split(/\s+/).length;
+  return Math.max(2, Math.round(words / 200));
+}
+
+export const BLOG_POSTS: BlogPost[] = POST_TITLES.map((p, i) => {
+  const now = new Date();
+  const created = new Date(now);
+  created.setDate(now.getDate() - (i * 5 + 12));
+  const updated = new Date(created);
+  updated.setDate(created.getDate() + (i % 4));
+  const status: BlogPost["status"] =
+    i % 7 === 6 ? "archived" : i % 4 === 3 ? "draft" : "published";
+  const publishedAt =
+    status === "published" ? new Date(created.getTime() + 86400000).toISOString() : undefined;
+
+  return {
+    id: `post-${String(i + 1).padStart(3, "0")}`,
+    title: p.title,
+    slug: slugify(p.title),
+    excerpt: p.excerpt,
+    content: POST_CONTENT,
+    coverImage: COVER_IMAGES[i % COVER_IMAGES.length],
+    category: p.category,
+    tags: p.tags,
+    status,
+    author: i % 3 === 0 ? "Camila Rojas" : "David Méndez",
+    readingTime: readingTime(POST_CONTENT),
+    featured: p.featured,
+    views: Math.floor(800 + Math.random() * 12000),
+    createdAt: created.toISOString(),
+    updatedAt: updated.toISOString(),
+    publishedAt,
+  };
+});
+
+export const BLOG_CATEGORIES = [
+  "Tecnología",
+  "Guías",
+  "Comparativas",
+  "Financiamiento",
+  "Industria",
+  "Diseño",
+  "Compra inteligente",
+];
+
+export function getBlogStats() {
+  const total = BLOG_POSTS.length;
+  const published = BLOG_POSTS.filter((p) => p.status === "published").length;
+  const drafts = BLOG_POSTS.filter((p) => p.status === "draft").length;
+  const archived = BLOG_POSTS.filter((p) => p.status === "archived").length;
+  const totalViews = BLOG_POSTS.reduce((acc, p) => acc + p.views, 0);
+  return { total, published, drafts, archived, totalViews };
+}

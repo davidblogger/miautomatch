@@ -16,7 +16,7 @@ import {
 const NAV = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Vehículos", href: "/vehiculos", icon: Car },
-  { label: "Blog", href: "#", icon: FileText, disabled: true },
+  { label: "Blog", href: "/blog", icon: FileText },
   { label: "Usuarios", href: "#", icon: Users, disabled: true },
 ];
 
