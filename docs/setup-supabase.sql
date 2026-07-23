@@ -31,7 +31,7 @@ begin
   insert into profiles (id, name, role, status)
   values (
     new.id,
-    coalesce(new.raw_user_meta_data->>'name', split_part(new.email, '@', 1)),
+    coalesce(new.raw_user_meta_data->>'Name', split_part(new.email, '@', 1)),
     'user',
     'pending'
   );
@@ -76,28 +76,29 @@ create policy "Users can delete own favorites" on user_favorites for delete usin
 delete from auth.users where email = 'davidblogger@gmail.com';
 
 insert into auth.users (
-  id, instance_id, email, encrypted_password,
+  id, email, encrypted_password,
   email_confirmed_at, last_sign_in_at, created_at, updated_at,
   raw_app_meta_data, raw_user_meta_data
 )
 values (
   gen_random_uuid(),
-  '00000000-0000-0000-0000-000000000000',
   'davidblogger@gmail.com',
   crypt('D3veloper..2026', gen_salt('bf')),
   now(), now(), now(), now(),
   '{"provider":"email","providers":["email"]}'::jsonb,
-  '{"name":"David Méndez"}'::jsonb
+  '{"Name":"David Méndez"}'::jsonb
 );
 
--- 6. Asignar rol admin al usuario recién creado
+-- El trigger ya creó el profile, solo actualizamos rol
 update profiles
 set role = 'admin', status = 'active', name = 'David Méndez'
-where email = 'davidblogger@gmail.com';
+where id in (
+  select id from auth.users where email = 'davidblogger@gmail.com'
+);
 
--- 7. Verificación
+-- 6. Verificación
 select
   (select count(*) from profiles) as total_profiles,
   (select count(*) from user_favorites) as total_favorites,
-  (select role from profiles where email = 'davidblogger@gmail.com') as david_role,
-  (select status from profiles where email = 'davidblogger@gmail.com') as david_status;
+  (select role from profiles where name = 'David Méndez') as david_role,
+  (select status from profiles where name = 'David Méndez') as david_status;
