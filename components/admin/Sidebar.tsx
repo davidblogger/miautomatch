@@ -13,11 +13,18 @@ import {
   LogOut,
 } from "lucide-react";
 
-const NAV = [
+type NavItem = {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  disabled?: boolean;
+};
+
+const NAV: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Vehículos", href: "/vehiculos", icon: Car },
   { label: "Blog", href: "/blog", icon: FileText },
-  { label: "Usuarios", href: "#", icon: Users, disabled: true },
+  { label: "Usuarios", href: "/usuarios", icon: Users },
 ];
 
 export function Sidebar() {
@@ -91,11 +98,6 @@ export function Sidebar() {
                   }`}
                 />
                 <span className="relative">{item.label}</span>
-                {item.disabled && (
-                  <span className="relative ml-auto text-[10px] uppercase tracking-wider text-white/25 bg-white/5 px-2 py-0.5 rounded-full">
-                    Pronto
-                  </span>
-                )}
               </Link>
             );
           })}

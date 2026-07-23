@@ -36,6 +36,22 @@ export type ActivityItem = {
   user: string;
 };
 
+export type UserRole = "admin" | "user";
+export type UserStatus = "active" | "suspended" | "pending";
+
+export type AdminUser = {
+  id: string;
+  role: UserRole;
+  name: string;
+  email: string;
+  phone?: string;
+  city?: string;
+  status: UserStatus;
+  joinedAt: string;
+  lastActiveAt?: string;
+  favoriteVehicleIds?: string[];
+};
+
 export type BlogPostStatus = "published" | "draft" | "archived";
 
 export type BlogPost = {

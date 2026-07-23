@@ -1,4 +1,4 @@
-import type { AdminVehicle, ActivityItem, BlogPost } from "./types";
+import type { AdminVehicle, ActivityItem, BlogPost, AdminUser } from "./types";
 
 const IMAGE_BASE =
   "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&w=1600&q=80";
@@ -418,4 +418,76 @@ export function getBlogStats() {
   const archived = BLOG_POSTS.filter((p) => p.status === "archived").length;
   const totalViews = BLOG_POSTS.reduce((acc, p) => acc + p.views, 0);
   return { total, published, drafts, archived, totalViews };
+}
+
+const BASE_USERS: Array<Omit<AdminUser, "id" | "joinedAt" | "lastActiveAt">> = [
+  {
+    role: "admin", name: "David Méndez", email: "david@miautomatch.cl", phone: "+56 9 1234 5678",
+    city: "Santiago", status: "active", favoriteVehicleIds: [],
+  },
+  {
+    role: "admin", name: "Camila Rojas", email: "camila@miautomatch.cl", phone: "+56 9 2345 6789",
+    city: "Santiago", status: "active", favoriteVehicleIds: [],
+  },
+  {
+    role: "admin", name: "Andrés Herrera", email: "andres@miautomatch.cl", phone: "+56 9 3456 7890",
+    city: "Valparaíso", status: "suspended", favoriteVehicleIds: [],
+  },
+  {
+    role: "user", name: "Felipe Torres", email: "felipe.torres@gmail.com", phone: "+56 9 4567 8901",
+    city: "Santiago", status: "active", favoriteVehicleIds: ["v-001", "v-002", "v-003"],
+  },
+  {
+    role: "user", name: "Isabel Sánchez", email: "isabel.sanchez@outlook.com", phone: "+56 9 5678 9012",
+    city: "Concepción", status: "active", favoriteVehicleIds: ["v-001", "v-005"],
+  },
+  {
+    role: "user", name: "Rodrigo Fuentes", email: "rfuentes@yahoo.com", phone: "+56 9 6789 0123",
+    city: "Santiago", status: "pending", favoriteVehicleIds: [],
+  },
+  {
+    role: "user", name: "María José Peña", email: "mj.pena@gmail.com", phone: "+56 9 7890 1234",
+    city: "Valparaíso", status: "active", favoriteVehicleIds: ["v-002", "v-010"],
+  },
+  {
+    role: "user", name: "Cristián Luna", email: "cristian.luna@icloud.com", phone: "+56 9 8901 2345",
+    city: "Santiago", status: "suspended", favoriteVehicleIds: ["v-001"],
+  },
+  {
+    role: "user", name: "Paula Araya", email: "paula.araya@gmail.com", phone: "+56 9 9012 3456",
+    city: "La Serena", status: "active", favoriteVehicleIds: ["v-003", "v-007", "v-012"],
+  },
+  {
+    role: "user", name: "Jorge Muñoz", email: "jorge.munoz@live.com", phone: "+56 9 0123 4567",
+    city: "Santiago", status: "active", favoriteVehicleIds: ["v-001", "v-006"],
+  },
+  {
+    role: "user", name: "Daniela Vargas", email: "daniela.v@gmail.com", phone: "+56 9 1111 2222",
+    city: "Temuco", status: "active", favoriteVehicleIds: ["v-004"],
+  },
+  {
+    role: "user", name: "Sebastián Castro", email: "sebastian.c@outlook.com", phone: "+56 9 2222 3333",
+    city: "Santiago", status: "pending", favoriteVehicleIds: [],
+  },
+  {
+    role: "user", name: "Antonieta Riquelme", email: "anto.riquelme@gmail.com", phone: "+56 9 3333 4444",
+    city: "Valparaíso", status: "active", favoriteVehicleIds: ["v-001", "v-002", "v-003", "v-005"],
+  },
+];
+
+export const ADMIN_USERS: AdminUser[] = BASE_USERS.map((u, i) => ({
+  ...u,
+  id: `user-${String(i + 1).padStart(3, "0")}`,
+  joinedAt: isoDaysAgo(90 - i * 5),
+  lastActiveAt: isoDaysAgo(i % 10),
+}));
+
+export function getUserStats() {
+  const total = ADMIN_USERS.length;
+  const admins = ADMIN_USERS.filter((u) => u.role === "admin").length;
+  const clients = ADMIN_USERS.filter((u) => u.role === "user").length;
+  const active = ADMIN_USERS.filter((u) => u.status === "active").length;
+  const suspended = ADMIN_USERS.filter((u) => u.status === "suspended").length;
+  const pending = ADMIN_USERS.filter((u) => u.status === "pending").length;
+  return { total, admins, clients, active, suspended, pending };
 }
