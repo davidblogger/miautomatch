@@ -29,6 +29,7 @@ Registro cronológico de las sesiones de trabajo. Cada entrada incluye objetivo,
 - `setup-supabase.sql` eliminado (contenía pasos destructivos para el usuario admin).
 
 **Pendiente:**
+- ⏳ Bug: Topbar y Sidebar muestran el email (o prefijo del email) en vez del nombre real del usuario. El profile existe en Supabase (`name: "David Mijares"`), pero `useCurrentUser` podría estar cayendo al fallback. Necesita revisión: verificar que el hook realmente lea `profile.name` y no el email.
 - ⏳ Migrar `/usuarios` a datos reales de Supabase (sigue con mock `ADMIN_USERS`).
 - ⏳ Plan 2 (Automotora) — pendiente.
 
